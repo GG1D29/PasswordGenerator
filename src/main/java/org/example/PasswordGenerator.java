@@ -4,29 +4,31 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class PasswordGenerator {
+    private static final String CHARSETS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final int MAX_LENGTH = 8;
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         // Initiate a new Scanner
         Scanner userInputScanner = new Scanner(System.in);
-        System.out.print("How many password combination do you want? ");
+        System.out.print("How many password combination do you want?\n");
         int numberOfPass = userInputScanner.nextInt();
         Random rand = new Random();
 
-        String charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder pass = new StringBuilder();
-
         while (numberOfPass > 0) {
-            //8-character length, first char upper case
-            pass.append(charset.charAt(rand.nextInt(charset.indexOf("Z") + 1)));
 
-            for (int i = 1; i < 8; i++) {
-                int index =
-                        rand.nextInt(charset.length() - charset.indexOf("a")) + charset.indexOf("a");
-                pass.append(charset.charAt(index));
+            int upperBoundIndexForUppercase = CHARSETS.indexOf("Z") + 1;
+            int randomizedUppercaseIndex = rand.nextInt(upperBoundIndexForUppercase);
+            pass.append(CHARSETS.charAt(randomizedUppercaseIndex));
+
+            int lowerBoundIndexForLowercase = CHARSETS.indexOf("a");
+            for (int i = 1; i < MAX_LENGTH; i++) {
+                int nextIndex = rand.nextInt(CHARSETS.length() - lowerBoundIndexForLowercase) + lowerBoundIndexForLowercase;
+                pass.append(CHARSETS.charAt(nextIndex));
             }
 
-            System.out.println(pass.toString());
+            System.out.println(pass);
             pass.setLength(0);
             numberOfPass--;
         }
